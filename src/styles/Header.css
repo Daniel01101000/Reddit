@@ -1,0 +1,88 @@
+.header {
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;       /* Para asegurarse de que esté hasta arriba */
+  left: 0;      /* Para que ocupe todo el ancho */
+  right: 0;     /* Asegura que se estire a todo el ancho */
+  z-index: 100; /* Si es necesario, para que quede por encima de otros elementos */
+}
+  
+  /* Logo */
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-image {
+    height: 47px;
+  }
+  
+  .logo-text {
+    font-size: 30px;
+    font-weight: 600;
+    color: #FF4500;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f3f4f6;
+    padding: 14px 20px;
+    border-radius: 9999px;
+    width: 33%;
+  }
+  
+  .search-icon {
+    height: 20px;
+    width: 20px;
+    color: #6b7280;
+  }
+  
+  .search-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  /* Actions */
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .action-icon {
+    height: 24px;
+    width: 24px;
+    color: #4b5563;
+    cursor: pointer;
+  }
+  
+  .login-btn, .signup-btn {
+    padding: 5px 15px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .login-btn {
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
+    background-color: transparent;
+  }
+  
+  .signup-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+  }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import "../styles/RedditPosts.css";
 
 function RedditPosts() {{}
     const [posts, setPosts] = useState([]);
@@ -11,19 +12,17 @@ function RedditPosts() {{}
     }, []);
 
     return (
-        <div>
-            <h1>Reddit Posts</h1>
-            <ul>
+        <div className='PostsContainer'>
                 {posts.map((post, index) => (
-                    <li key={index}>
-                        <a href={post.link} target="_blank" rel="noopener noreferrer">
+                    <div key={index} className='Post'>
                             <h3>{post.title}</h3>
-                            <img src={post.image} alt={post.title} />
+                            <a href={post.link} target="_blank" rel="noopener noreferrer">
+                            <img src={post.image} alt={post.title} className='ImagenPost'/>
                         </a>
                         <p>Upvotes: {post.upvotes}</p>
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            
         </div>
     );
 }
