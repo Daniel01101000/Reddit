@@ -15,6 +15,7 @@ function RedditPosts() {{}
         <div className='PostsContainer'>
                 {posts.map((post, index) => (
                     <div key={index} className='Post'>
+                            <h4>{post.author}</h4>
                             <h3>{post.title}</h3>
                             <a href={post.link} target="_blank" rel="noopener noreferrer">
                             <img src={post.image} alt={post.title} className='ImagenPost'/>
@@ -28,3 +29,4 @@ function RedditPosts() {{}
 }
  
 export default RedditPosts;
+
