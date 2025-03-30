@@ -1,32 +1,47 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../styles/RedditPosts.css";
 
-function RedditPosts() {{}
-    const [posts, setPosts] = useState([]);
+export default function RedditPosts({ subreddit }) {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        fetch('http://localhost:5000/api/posts')
-            .then(response => response.json())
-            .then(data => setPosts(data))
-            .catch(error => console.error('Fetch error:', error));
-    }, []);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      setError(null);
 
-    return (
-        <div className='PostsContainer'>
-                {posts.map((post, index) => (
-                    <div key={index} className='Post'>
-                            <h4>{post.author}</h4>
-                            <h3>{post.title}</h3>
-                            <a href={post.link} target="_blank" rel="noopener noreferrer">
-                            <img src={post.image} alt={post.title} className='ImagenPost'/>
-                        </a>
-                        <p>Upvotes: {post.upvotes}</p>
-                    </div>
-                ))}
-            
-        </div>
-    );
+      try {
+        const response = await fetch(`http://localhost:5000/api/posts?subreddit=${subreddit}`);
+        if (!response.ok) throw new Error('No se pudieron obtener los posts');
+        
+        const data = await response.json();
+        setPosts(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [subreddit]);
+
+  return (
+    <div>
+      <h1>Mostrando: r/{subreddit}</h1>
+      {loading && <p>Cargando posts...</p>}
+      {error && <p>Error: {error}</p>}
+      <ul>
+        {posts.map((post, index) => (
+          <li key={index}>
+            <h2>{post.title}</h2>
+            <p>Autor: {post.author}</p>
+            <img src={post.image}/>
+            <a href={post.link} target="_blank" rel="noopener noreferrer">Ver en Reddit</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
- 
-export default RedditPosts;
-

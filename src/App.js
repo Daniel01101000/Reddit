@@ -1,12 +1,15 @@
 import './App.css';
+import { useState } from 'react';
 import RedditPosts from '../src/components/RedditPosts.jsx';
 import Header from './components/Header/Header.jsx';
 
 function App() {
+  const [subreddit, setSubreddit] = useState('EarthPorn'); // Estado para el subreddit
+
   return (
     <div className="App">
-      <Header/>
-      <RedditPosts/>
+      <Header onSearch={setSubreddit} /> {/* Pasamos la función para actualizar el subreddit */}
+      <RedditPosts subreddit={subreddit} /> {/* Pasamos el subreddit a RedditPosts */}
     </div>
   );
 }
