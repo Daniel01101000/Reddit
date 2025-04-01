@@ -1,5 +1,5 @@
 .PostsContainer {
-    padding-top: 80px; /* Esto asegurará que el contenido no quede cubierto por el header */
+    padding-top: 90px; /* Esto asegurará que el contenido no quede cubierto por el header */
     position: relative;
 }
 
@@ -7,7 +7,7 @@
     position: relative;
     width: 800px; /* Establecer un ancho fijo más pequeño */
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 10px;
     border-radius: 10px;
     margin: 0 auto; /* Centra el contenedor dentro del contenedor principal */
@@ -16,9 +16,9 @@
 
 .Post:hover {
     background-color: #f9f9f9;
-    padding: 15px;
+    padding: 10px;
     border-radius: 25px;
-    transform: scale(1.05); /* Escala el contenedor al hacer hover */
+    transform: scale(1.03); /* Escala el contenedor al hacer hover */
     position: relative;
     justify-content: center;
 }

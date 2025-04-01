@@ -1,4 +1,4 @@
-import { Search, Home, Bell, MessageCircle } from 'lucide-react';
+import { Search, Home, Bell, MessageCircle, X } from 'lucide-react'; 
 import '../../styles/Header.css';
 import React, { useState } from 'react';
 
@@ -7,14 +7,18 @@ export default function Header({ onSearch }) {
 
   const handleSearch = (event) => {
     if (event.key === 'Enter' && searchValue.trim() !== '') {
-      onSearch(searchValue.trim()); // Actualiza el subreddit en App.js
+      onSearch(searchValue.trim());
     }
+  };
+
+  const clearSearch = () => {
+    setSearchValue('');
   };
 
   return (
     <header className="header">
       <div className="logo">
-        <img src="/images/redditLogo.png" alt="LogoDeReddit" className="logo-image" />
+        <img src="/images/Logo/redditLogo.png" alt="LogoDeReddit" className="logo-image" />
         <span className="logo-text">reddit</span>
       </div>
 
@@ -26,8 +30,11 @@ export default function Header({ onSearch }) {
           className="search-input"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          onKeyDown={handleSearch} // Detecta Enter
+          onKeyDown={handleSearch}
         />
+        {searchValue && (
+          <X className="clear-icon" onClick={clearSearch} />
+        )}
       </div>
 
       <div className="actions">

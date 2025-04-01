@@ -1,6 +1,6 @@
 import './App.css';
 import { useState } from 'react';
-import RedditPosts from '../src/components/RedditPosts.jsx';
+import RedditPosts from './components/Cards/RedditPosts.jsx';
 import Header from './components/Header/Header.jsx';
 
 function App() {
@@ -9,6 +9,7 @@ function App() {
   return (
     <div className="App">
       <Header onSearch={setSubreddit} /> {/* Pasamos la función para actualizar el subreddit */}
+      
       <RedditPosts subreddit={subreddit} /> {/* Pasamos el subreddit a RedditPosts */}
     </div>
   );
