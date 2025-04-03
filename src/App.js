@@ -9,9 +9,9 @@ function App() {
 
   return (
     <div className="App">
-      <Header onSearch={setSubreddit} /> {/* Pasamos la función para actualizar el subreddit */}
-      <RedditMenu />
-      <RedditPosts subreddit={subreddit} /> {/* Pasamos el subreddit a RedditPosts */}
+      <Header onSearch={setSubreddit} />
+      <RedditMenu setSubreddit={setSubreddit} /> {/* Pasamos la función */}
+      <RedditPosts subreddit={subreddit} />
     </div>
   );
 }

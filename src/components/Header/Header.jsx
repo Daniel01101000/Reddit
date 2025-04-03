@@ -38,10 +38,16 @@ export default function Header({ onSearch }) {
       </div>
 
       <div className="actions">
-        <Home className="action-icon" />
-        <Bell className="action-icon" />
-        <MessageCircle className="action-icon" />
-      </div>
+  <span className="action-icon" onClick={() => onSearch("EarthPorn")}>
+    <Home />
+  </span>
+  <span className="action-icon" onClick={() => onSearch("Popular")}>
+    <Bell />
+  </span>
+  <span className="action-icon" onClick={() => onSearch("Discusions")}>
+    <MessageCircle />
+  </span>
+</div>
     </header>
   );
 }

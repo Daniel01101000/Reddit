@@ -9,7 +9,7 @@
   top: 0;       /* Para asegurarse de que esté hasta arriba */
   left: 0;      /* Para que ocupe todo el ancho */
   right: 0;     /* Asegura que se estire a todo el ancho */
-  z-index: 100; /* Si es necesario, para que quede por encima de otros elementos */
+  z-index: 10000; /* Si es necesario, para que quede por encima de otros elementos */
 }
   
   /* Logo */
@@ -105,4 +105,52 @@
   
   .clear-icon:hover {
     color: #333;
+  }
+
+  .actions {
+    display: flex;  
+    gap: 2px; /* Ajusta el espacio entre iconos */
+}
+
+  .action-icon {
+    position: relative;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    width: 45px; /* Define el área del icono */
+    height: 45px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.action-icon:hover {
+    background-color: #dddddd; /* Fondo gris en hover */
+}
+
+.action-icon svg {
+    width: 24px;  /* Tamaño real del icono */
+    height: 24px;
+}
+
+@media (max-width: 567px) {
+  .actions {
+    display: none; /* Ocultar el contenedor cuando la pantalla sea menor a 567px */
+  }
+  
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background-color: #f3f4f6;
+      padding: 14px 20px;
+      border-radius: 9999px;
+      width: 33%; /* Mantiene el tamaño original */
+      justify-content: center; /* Centra el contenido dentro de la barra */
+      position: absolute; /* Posiciona la barra de búsqueda */
+      left: 50%; /* La coloca al centro de la pantalla */
+      transform: translateX(-50%); /* Ajusta el desplazamiento para centrar perfectamente */
+    }
+
+    .logo-text {
+      display: none;
+    }
   }

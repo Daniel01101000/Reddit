@@ -5,13 +5,14 @@
 
 .Post {
     position: relative;
-    width: 800px; /* Establecer un ancho fijo más pequeño */
+    width: 70%; /* Establecer un ancho fijo más pequeño */
     gap: 10px;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 10px;
     margin: 0 auto; /* Centra el contenedor dentro del contenedor principal */
     transition: transform 0.3s ease;
+    max-width: 800px;
 }
 
 .Post:hover {
@@ -24,7 +25,22 @@
 }
 
 .ImagenPost {
-    height: 500px;
     width: 90%; /* Hace que la imagen sea responsiva al ancho del contenedor */
     border-radius: 25px;
+    max-height: 500px;
+    min-height: 250px;
+    height: 80%;
+    
 }
+
+@media (max-width: 567px) {
+    .ImagenPost {
+        width: 90%; /* Hace que la imagen sea responsiva al ancho del contenedor */
+        border-radius: 25px;
+        max-height: 500px;
+        min-height: 250px;
+        height: 80%;
+        height: 250px;
+    }
+}
+  
