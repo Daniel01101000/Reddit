@@ -29,7 +29,7 @@ app.use(express.static('public'));
 
 // Función para obtener una imagen aleatoria de la carpeta Errors
 function getRandomImage() {
-    const folderPath = path.join(__dirname, './reddit/public/images/Errors');
+    const folderPath = path.join(__dirname, './public/images/Errors');
 
     try {
         const files = fs.readdirSync(folderPath); // Leemos los archivos de la carpeta
