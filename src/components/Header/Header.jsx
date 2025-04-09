@@ -18,7 +18,7 @@ export default function Header({ onSearch }) {
   return (
     <header className="header">
       <div className="logo">
-        <img src="/images/Logo/redditLogo.png" alt="LogoDeReddit" className="logo-image" />
+      <img src="/images/Logo/redditLogo.png" alt="LogoDeReddit" className="logo-image" />
         <span className="logo-text">reddit</span>
       </div>
 

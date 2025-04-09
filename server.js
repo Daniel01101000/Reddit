@@ -4,7 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const { getData } = require('./src/SolicitudApi/Api3.js');
 
+
+
 const app = express();
+
+app.use('/images', express.static(path.join(__dirname, 'reddit/public/images')));
 
 // Usar el puerto dinámico de Heroku si está disponible, sino usar 5000 localmente
 const PORT = process.env.PORT || 5000;
@@ -70,6 +74,17 @@ app.get('/api/posts', async (req, res) => {
     }
 });
 
+app.get('/test-image-direct', (req, res) => {
+    const imagePath = path.join(__dirname, './public/images/Errors/RedditErrorInsects.png');
+    console.log('Ruta generada:', imagePath); // Agrega esto
+
+    if (fs.existsSync(imagePath)) {
+        res.sendFile(imagePath);
+    } else {
+        console.log('⚠️ No se encontró el archivo en esa ruta');
+        res.status(404).send('No existe la imagen');
+    }
+});
 // Endpoint para obtener una imagen aleatoria de la carpeta Errors
 app.get('/api/random-image', (req, res) => {
     const randomImage = getRandomImage(); // Llamamos a la función que obtiene la imagen aleatoria
