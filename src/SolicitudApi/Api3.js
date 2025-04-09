@@ -6,7 +6,10 @@ async function getData(subreddit) {
         const accessToken = await getRedditToken();
         if (!accessToken) throw new Error('No se pudo obtener el token de acceso.');
 
-        const response = await axios.get(`https://oauth.reddit.com/r/${subreddit}/new.json`, {
+        // Usamos una variable de entorno para definir la URL base
+        const apiUrl = process.env.API_URL || 'https://oauth.reddit.com'; // Para desarrollo, puedes usar la URL local de Reddit si es necesario
+
+        const response = await axios.get(`${apiUrl}/r/${subreddit}/new.json`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'User-Agent': 'RedditScraper/1.0 by u/Mental-Ambition4267',
