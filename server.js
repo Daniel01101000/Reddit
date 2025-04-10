@@ -2,19 +2,19 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { getData } = require('./src/SolicitudApi/Api3.js');
-const cors = require('cors'); // Agregado para importar cors
+const cors = require('cors');
 
 const app = express();
 
-// Configura express para servir imágenes estáticas desde la ruta /images/Errors
+// Servir imágenes estáticas desde /images/Errors
 app.use('/images/Errors', express.static(path.join(__dirname, 'public/images/Errors')));
 app.use(express.static('public'));
 
-// Usar el puerto dinámico de Heroku si está disponible, sino usar 5000 localmente
+// Puerto
 const PORT = process.env.PORT || 5000;
 
-// Configuración de CORS
-// Permitir solicitudes desde el dominio de GitHub Pages
+/*
+// Versión original con control de origen (comentada temporalmente)
 const allowedOrigins = [
   'http://localhost:3000',
   'https://daniel01101000.github.io',
@@ -24,12 +24,16 @@ const allowedOrigins = [
 app.use(cors({
   origin: (origin, callback) => {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true); // Permite solicitudes de estos orígenes
+      callback(null, true);
     } else {
-      callback(new Error('No permitido por CORS')); // Bloquea solicitudes de orígenes no permitidos
+      callback(new Error('No permitido por CORS'));
     }
   }
 }));
+*/
+
+// ✅ Versión más flexible (permite todos los orígenes)
+app.use(cors()); // O también: app.use(cors({ origin: '*' }))
 
 app.use(express.json());
 
@@ -52,21 +56,19 @@ app.get('/api/posts', async (req, res) => {
   }
 });
 
+// Endpoint para obtener una imagen aleatoria
 app.get('/api/random-image', (req, res) => {
   const folderPath = path.join(__dirname, 'public/images/Errors');
 
   try {
     const files = fs.readdirSync(folderPath);
-    const images = files.filter(file =>
-      file.match(/\.(jpg|jpeg|png|gif)$/i)
-    );
+    const images = files.filter(file => file.match(/\.(jpg|jpeg|png|gif)$/i));
 
     if (images.length === 0) {
       return res.status(404).json({ error: 'No se encontraron imágenes' });
     }
 
     const randomImage = images[Math.floor(Math.random() * images.length)];
-
     const imageUrl = `${req.protocol}://${req.get('host')}/images/Errors/${randomImage}`;
 
     res.json({ imageUrl });
@@ -76,5 +78,5 @@ app.get('/api/random-image', (req, res) => {
   }
 });
 
-// Iniciar el servidor
+// Iniciar servidor
 app.listen(PORT, () => console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`));
