@@ -46,7 +46,7 @@ app.get('/api/posts', async (req, res) => {
     const posts = await getData(subreddit);
 
     if (!posts || posts.length === 0) {
-      throw new Error('No se encontraron publicaciones');
+      throw new Error('No se encontraro publicaciones');
     }
 
     res.json(posts);
