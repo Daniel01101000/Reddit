@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/RedditPosts.css";
-import LoadingSpinner from '../Loading/LoadingSpinner.jsx'; // Importamos el spinner
+import LoadingSpinner from '../Loading/LoadingSpinner.jsx';
 
-// Función asíncrona para obtener una imagen aleatoria
+// URL base dinámica: local en desarrollo, producción en GitHub Pages
+const BASE_URL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:5000'
+  : 'https://reddit-3.onrender.com';
+
+// Función para obtener una imagen aleatoria
 const fetchRandomImage = async () => {
   try {
-    const response = await fetch('http://localhost:5000/api/random-image');
+    const response = await fetch(`${BASE_URL}/api/random-image`);
     const data = await response.json();
-    return data.imageUrl; // Regresa la URL de la imagen aleatoria
+    return data.imageUrl;
   } catch (err) {
     console.error('Error obteniendo imagen aleatoria:', err);
-    return '/images/Errors/RedditErrorInsects.png'; // Imagen por defecto en caso de error
+    return '/images/Errors/RedditErrorInsects.png';
   }
 };
 
 export default function RedditPosts({ subreddit }) {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true); // Asegurar que loading inicia en `true`
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -24,15 +29,12 @@ export default function RedditPosts({ subreddit }) {
       setLoading(true);
       setError(null);
       try {
-        // Obtener posts
-        const response = await fetch(`http://localhost:5000/api/posts?subreddit=${subreddit}`);
+        const response = await fetch(`${BASE_URL}/api/posts?subreddit=${subreddit}`);
         if (!response.ok) throw new Error('No se pudieron obtener los posts');
         const data = await response.json();
 
-        // Para cada post, asignar una imagen aleatoria de respaldo
         const postsWithFallback = await Promise.all(
           data.map(async (post) => {
-            // Si el post no tiene imagen o queremos usar la aleatoria como respaldo
             const fallbackImage = await fetchRandomImage();
             return { ...post, fallbackImage };
           })
@@ -41,16 +43,15 @@ export default function RedditPosts({ subreddit }) {
       } catch (err) {
         setError(err.message);
       } finally {
-        setTimeout(() => setLoading(false), 500); // 🔹 Retraso para que el spinner se vea
+        setTimeout(() => setLoading(false), 500);
       }
     };
 
     fetchData();
   }, [subreddit]);
 
-  // Manejador de error para cada imagen
   const handleImageError = (e, fallbackImage) => {
-    e.target.onerror = null; // Prevenir bucles infinitos en caso de fallo repetido
+    e.target.onerror = null;
     e.target.src = fallbackImage || '/images/Errors/RedditErrorInsects.png';
   };
 

@@ -18,7 +18,7 @@ function getRandomImage() {
 
     const randomImage = images[Math.floor(Math.random() * images.length)];
     // Retorna la URL relativa para que funcione en el frontend
-    return `http://localhost:3000/images/Errors/${randomImage}`;
+    return `http://localhost:5000/images/Errors/${randomImage}`;
   } catch (err) {
     console.error('Error al leer la carpeta:', err);
     return null;

@@ -2,36 +2,36 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { getData } = require('./src/SolicitudApi/Api3.js');
+const cors = require('cors'); // Agregado para importar cors
 
 const app = express();
 
-// Configura express para servir imágenes estáticas
-app.use('/images', express.static(path.join(__dirname, 'reddit/public/images/Errors')));
+// Configura express para servir imágenes estáticas desde la ruta /images/Errors
+app.use('/images/Errors', express.static(path.join(__dirname, 'public/images/Errors')));
+app.use(express.static('public'));
 
+// Usar el puerto dinámico de Heroku si está disponible, sino usar 5000 localmente
+const PORT = process.env.PORT || 5000;
 
-// Función para obtener una imagen aleatoria de la carpeta Errors
-function getRandomImage() {
-  const folderPath = path.join(__dirname, './reddit/public/images/Errors'); // Ruta para la carpeta de imágenes 'Errors'
+// Configuración de CORS
+// Permitir solicitudes desde el dominio de GitHub Pages
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://daniel01101000.github.io',
+  'https://reddit-3.onrender.com',
+];
 
-  try {
-    const files = fs.readdirSync(folderPath); // Leemos los archivos de la carpeta
-
-    const images = files.filter(file =>
-      file.match(/\.(jpg|jpeg|png|gif)$/i) // Filtramos solo archivos de imagen
-    );
-
-    if (images.length === 0) {
-      console.log('No se encontraron imágenes en la carpeta');
-      return null;
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true); // Permite solicitudes de estos orígenes
+    } else {
+      callback(new Error('No permitido por CORS')); // Bloquea solicitudes de orígenes no permitidos
     }
-
-    const randomImage = images[Math.floor(Math.random() * images.length)]; // Seleccionamos una imagen aleatoria
-    return `/images/Errors/${randomImage}`; // Devolvemos la URL relativa para acceder a la imagen
-  } catch (err) {
-    console.error('Error al leer la carpeta:', err);
-    return null;
   }
-}
+}));
+
+app.use(express.json());
 
 // Endpoint para obtener posts
 app.get('/api/posts', async (req, res) => {
@@ -52,6 +52,29 @@ app.get('/api/posts', async (req, res) => {
   }
 });
 
+app.get('/api/random-image', (req, res) => {
+  const folderPath = path.join(__dirname, 'public/images/Errors');
+
+  try {
+    const files = fs.readdirSync(folderPath);
+    const images = files.filter(file =>
+      file.match(/\.(jpg|jpeg|png|gif)$/i)
+    );
+
+    if (images.length === 0) {
+      return res.status(404).json({ error: 'No se encontraron imágenes' });
+    }
+
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+
+    const imageUrl = `${req.protocol}://${req.get('host')}/images/Errors/${randomImage}`;
+
+    res.json({ imageUrl });
+  } catch (err) {
+    console.error('Error al obtener imagen aleatoria:', err);
+    res.status(500).json({ error: 'Error al leer la carpeta de imágenes' });
+  }
+});
+
 // Iniciar el servidor
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`));
