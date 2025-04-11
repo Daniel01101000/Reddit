@@ -6,42 +6,41 @@ const cors = require('cors');
 
 const app = express();
 
-// Servir imágenes estáticas desde /images/Errors
-app.use('/images/Errors', express.static(path.join(__dirname, '..', 'public/images/Errors')));
-app.use(express.static(path.join(__dirname, '..', 'public'))); // Asegura que se sirva correctamente desde fuera de /Server
-
-// Puerto
-const PORT = process.env.PORT || 5000;
-
-/*
-// Versión original con control de origen (comentada temporalmente)
+// ✅ Lista de orígenes permitidos (incluye tu GitHub Pages y Render)
 const allowedOrigins = [
   'http://localhost:3000',
   'https://daniel01101000.github.io',
   'https://reddit-3.onrender.com',
 ];
 
+// ✅ Configuración de CORS segura y compatible con GitHub Pages
 app.use(cors({
   origin: (origin, callback) => {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('No permitido por CORS'));
     }
   }
 }));
-*/
 
-// ✅ Versión más flexible (permite todos los orígenes)
-app.use(cors()); // O también: app.use(cors({ origin: '*' }))
-
+// Middleware para JSON
 app.use(express.json());
 
-// Endpoint para obtener posts
+// ✅ Servir imágenes de errores
+app.use('/images/Errors', express.static(path.join(__dirname, '..', 'public/images/Errors')));
+
+// ✅ Servir contenido estático como el logo192.png y otros archivos públicos
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Puerto
+const PORT = process.env.PORT || 5000;
+
+// Endpoint: Obtener posts del subreddit
 app.get('/api/posts', async (req, res) => {
   try {
     const subreddit = req.query.subreddit || 'EarthPorn';
-    console.log(`Solicitando posts de r/${subreddit}...`);
+    console.log(`📥 Solicitando posts de r/${subreddit}...`);
 
     const posts = await getData(subreddit);
 
@@ -51,14 +50,14 @@ app.get('/api/posts', async (req, res) => {
 
     res.json(posts);
   } catch (error) {
-    console.error('Error obteniendo posts:', error.message);
+    console.error('❌ Error obteniendo posts:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Endpoint para obtener una imagen aleatoria
+// Endpoint: Imagen aleatoria
 app.get('/api/random-image', (req, res) => {
-  const folderPath = path.join(__dirname, '..', 'public/images/Errors'); // ✅ Corregido
+  const folderPath = path.join(__dirname, '..', 'public/images/Errors');
 
   try {
     const files = fs.readdirSync(folderPath);
@@ -73,10 +72,12 @@ app.get('/api/random-image', (req, res) => {
 
     res.json({ imageUrl });
   } catch (err) {
-    console.error('Error al obtener imagen aleatoria:', err);
+    console.error('❌ Error al obtener imagen aleatoria:', err);
     res.status(500).json({ error: 'Error al leer la carpeta de imágenes' });
   }
 });
 
 // Iniciar servidor
-app.listen(PORT, () => console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+});
