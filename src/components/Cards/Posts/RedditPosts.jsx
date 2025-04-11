@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import "../../styles/RedditPosts.css";
-import LoadingSpinner from '../Loading/LoadingSpinner.jsx';
+import "../../../styles/RedditPosts/RedditPosts.css";
+import LoadingSpinner from '../../Loading/LoadingSpinner.jsx';
 
 // URL base dinámica: local en desarrollo, producción en GitHub Pages
 const BASE_URL = process.env.NODE_ENV === 'development'

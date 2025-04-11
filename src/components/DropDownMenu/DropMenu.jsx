@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import "../../styles/DropMenu.css";
+import "../../styles/Menu/DropMenu.css";
 
 export default function RedditMenu({ setSubreddit }) {
   const [open, setOpen] = useState(false);

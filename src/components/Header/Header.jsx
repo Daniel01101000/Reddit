@@ -1,5 +1,5 @@
 import { Search, Home, Bell, MessageCircle, X } from 'lucide-react'; 
-import '../../styles/Header.css';
+import '../../styles/Header/Header.css';
 import React, { useState } from 'react';
 
 export default function Header({ onSearch }) {

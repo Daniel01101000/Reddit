@@ -1,6 +1,6 @@
-import './App.css';
+import './styles/App/App.css';
 import { useState } from 'react';
-import RedditPosts from './components/Cards/RedditPosts.jsx';
+import RedditPosts from './components/Cards/Posts/RedditPosts.jsx';
 import Header from './components/Header/Header.jsx';
 import RedditMenu from './components/DropDownMenu/DropMenu.jsx';
 

@@ -1,5 +1,5 @@
 const axios = require('axios');
-const getRedditToken = require('./getToken.js');
+const getRedditToken = require('../Token/getToken.js');
 
 async function getData(subreddit) { 
     try {

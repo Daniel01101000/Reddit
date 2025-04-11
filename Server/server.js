@@ -1,14 +1,14 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { getData } = require('./src/SolicitudApi/Api3.js');
+const { getData } = require('../src/SolicitudApi/Data/getData.js');
 const cors = require('cors');
 
 const app = express();
 
 // Servir imágenes estáticas desde /images/Errors
-app.use('/images/Errors', express.static(path.join(__dirname, 'public/images/Errors')));
-app.use(express.static('public'));
+app.use('/images/Errors', express.static(path.join(__dirname, '..', 'public/images/Errors')));
+app.use(express.static(path.join(__dirname, '..', 'public'))); // Asegura que se sirva correctamente desde fuera de /Server
 
 // Puerto
 const PORT = process.env.PORT || 5000;
@@ -46,7 +46,7 @@ app.get('/api/posts', async (req, res) => {
     const posts = await getData(subreddit);
 
     if (!posts || posts.length === 0) {
-      throw new Error('No se encontraro publicaciones');
+      throw new Error('No se encontraron publicaciones');
     }
 
     res.json(posts);
@@ -58,7 +58,7 @@ app.get('/api/posts', async (req, res) => {
 
 // Endpoint para obtener una imagen aleatoria
 app.get('/api/random-image', (req, res) => {
-  const folderPath = path.join(__dirname, 'public/images/Errors');
+  const folderPath = path.join(__dirname, '..', 'public/images/Errors'); // ✅ Corregido
 
   try {
     const files = fs.readdirSync(folderPath);
